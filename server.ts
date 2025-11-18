@@ -62,7 +62,7 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 app.use(express.json());
-app.post('/mail', (req, res) => {
+app.post('/mail', async (req, res) => {
   try {
     const reqMethod = req.method
     const reqURL = req.url
@@ -72,7 +72,7 @@ app.post('/mail', (req, res) => {
     const text = language === 'ko' ? `환영합니다. 번호는 ${req.body.number}입니다.` : `Welcome. The number is ${req.body.number}.`
     if (reqMethod === 'POST' && reqURL === "/mail") {
       console.log('sending')
-      sendEmail({
+      await sendEmail({
         subject: subject,
         text: text,
         to: req.body.to,
