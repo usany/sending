@@ -72,7 +72,7 @@ const sendEmail = async (emailOptions: MailOptions) => {
         }
       });
     });
-    const res = await emailTransporter.sendMail(emailOptions);
+    // const res = await emailTransporter.sendMail(emailOptions);
     console.log('sending')
     return res
   } catch (error) {
