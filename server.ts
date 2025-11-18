@@ -5,6 +5,7 @@ import { google } from 'googleapis'
 import { createServer } from 'http'
 import nodemailer from 'nodemailer'
 import { Server } from 'socket.io'
+import { MailOptions } from 'nodemailer/lib/sendmail-transport'
 
 dotenv.config()
 const createTransporter = async () => {
