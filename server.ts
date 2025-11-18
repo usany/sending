@@ -44,9 +44,58 @@ const createTransporter = async () => {
 
   return transporter;
 };
+await new Promise((resolve, reject) => {
+    // verify connection configuration
+    transporter.verify(function (error, success) {
+        if (error) {
+            console.log(error);
+            reject(error);
+        } else {
+            console.log("Server is ready to take our messages");
+            resolve(success);
+        }
+    });
+});
+await new Promise((resolve, reject) => {
+    // send mail
+    transporter.sendMail(mailData, (err, info) => {
+        if (err) {
+            console.error(err);
+            reject(err);
+        } else {
+            console.log(info);
+            resolve(info);
+        }
+    });
+});
+
 const sendEmail = async (emailOptions: MailOptions) => {
   try {
     const emailTransporter = await createTransporter();
+    await new Promise((resolve, reject) => {
+      // verify connection configuration
+      emailTransporter.verify(function (error, success) {
+          if (error) {
+              console.log(error);
+              reject(error);
+          } else {
+              console.log("Server is ready to take our messages");
+              resolve(success);
+          }
+      });
+    });
+    await new Promise((resolve, reject) => {
+      // send mail
+      const res = emailTransporter.sendMail(emailOptions, (err, info) => {
+        if (err) {
+            console.error(err);
+            reject(err);
+        } else {
+            console.log(info);
+            resolve(info);
+        }
+      });
+    });
     const res = await emailTransporter.sendMail(emailOptions);
     console.log('sending')
     return res
