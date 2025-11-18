@@ -74,7 +74,7 @@ const sendEmail = async (emailOptions: MailOptions) => {
     });
     // const res = await emailTransporter.sendMail(emailOptions);
     console.log('sending')
-    return res
+    // return res
   } catch (error) {
     console.log(error)
   }
