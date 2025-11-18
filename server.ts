@@ -100,6 +100,8 @@ app.post('/mail', (req, res) => {
   console.log('sent')
   const reqMethod = req.method
   const reqURL = req.url
+  console.log(reqMethod)
+  console.log(reqURL)
   const language = req.body.language
   const subject = language === 'ko' ? '환영합니다 쿠우산입니다! 가입 번호입니다.' : "Welcome to KHUSAN! Here is the verification number."
   const text = language === 'ko' ? `환영합니다. 번호는 ${req.body.number}입니다.` : `Welcome. The number is ${req.body.number}.`
