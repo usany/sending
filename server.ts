@@ -63,21 +63,26 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use(express.json());
 app.post('/mail', (req, res) => {
-  const reqMethod = req.method
-  const reqURL = req.url
-  console.log(`${reqMethod} ${reqURL}`)
-  const language = req.body.language
-  const subject = language === 'ko' ? '환영합니다 쿠우산입니다! 가입 번호입니다.' : "Welcome to KHUSAN! Here is the verification number."
-  const text = language === 'ko' ? `환영합니다. 번호는 ${req.body.number}입니다.` : `Welcome. The number is ${req.body.number}.`
-  if (reqMethod === 'POST' && reqURL === "/mail") {
-    sendEmail({
-      subject: subject,
-      text: text,
-      to: req.body.to,
-      from: process.env.USER
-    });
+  try {
+    const reqMethod = req.method
+    const reqURL = req.url
+    console.log(`${reqMethod} ${reqURL}`)
+    const language = req.body.language
+    const subject = language === 'ko' ? '환영합니다 쿠우산입니다! 가입 번호입니다.' : "Welcome to KHUSAN! Here is the verification number."
+    const text = language === 'ko' ? `환영합니다. 번호는 ${req.body.number}입니다.` : `Welcome. The number is ${req.body.number}.`
+    if (reqMethod === 'POST' && reqURL === "/mail") {
+      sendEmail({
+        subject: subject,
+        text: text,
+        to: req.body.to,
+        from: process.env.USER
+      });
+    }
+    res.send(JSON.stringify({ res: 'sending' }))
+  } catch (error) {
+    console.log(error)
+    res.send(JSON.stringify({ res: 'error' }))
   }
-  res.send(JSON.stringify({ res: 'sending' }))
 })
 
 httpServer.listen(5000, () => {
