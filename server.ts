@@ -116,20 +116,6 @@ app.post('/mail', (req, res) => {
   res.send(JSON.stringify({ res: 'sending' }))
 })
 
-const io = new Server(httpServer, {
-  cors: {
-    // origin: "http://localhost:5173",
-    // origin: 'https://usany.github.io',
-    // origin: 'https://usany-github-io.vercel.app',
-    origin: [
-      'http://localhost:5173',
-      'https://usany.github.io',
-      'https://usany-github-io.vercel.app'
-    ],
-    // origin: '*',
-    methods: ["GET", "POST"]
-  }
-})
 httpServer.listen(5000, () => {
   console.log('ready')
 })
