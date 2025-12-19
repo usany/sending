@@ -4,8 +4,8 @@ import express from 'express'
 import { google } from 'googleapis'
 import { createServer } from 'http'
 import nodemailer from 'nodemailer'
-// import { Server } from 'socket.io'
 import { MailOptions } from 'nodemailer/lib/sendmail-transport'
+// import { Server } from 'socket.io'
 
 dotenv.config()
 const createTransporter = async () => {
@@ -49,6 +49,7 @@ const sendEmail = async (emailOptions: MailOptions) => {
 const app = express()
 const httpServer = createServer(app)
 const corsOptions = {
+  // origin: '*',
   // origin: 'http://localhost:5173',
   // origin: 'https://usany.github.io',
   // origin: 'https://usany-github-io.vercel.app',
@@ -59,7 +60,6 @@ const corsOptions = {
     'https://usany-github-io.vercel.app',
     'https://khusan.co.kr'
   ],
-  // origin: '*',
   optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions))
