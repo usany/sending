@@ -4,7 +4,7 @@ import express from 'express'
 import { google } from 'googleapis'
 import { createServer } from 'http'
 import nodemailer from 'nodemailer'
-import { MailOptions } from 'nodemailer/lib/sendmail-transport'
+import { type MailOptions } from 'nodemailer/lib/sendmail-transport/index.js'
 // import { Server } from 'socket.io'
 
 dotenv.config()

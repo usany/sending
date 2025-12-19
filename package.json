@@ -12,7 +12,6 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@types/nodemailer": "^6.4.17",
-    "ts-node": "^10.9.2",
     "tsx": "^4.19.4"
   },
   "dependencies": {
