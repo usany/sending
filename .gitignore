@@ -24,5 +24,4 @@ dev-dist
 *.sw?
 .vercel
 .env
-*storybook.log
 # ...
