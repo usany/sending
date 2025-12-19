@@ -4,7 +4,7 @@ import express from 'express'
 import { google } from 'googleapis'
 import { createServer } from 'http'
 import nodemailer from 'nodemailer'
-import { type MailOptions } from 'nodemailer/lib/sendmail-transport/index.js'
+// import { type MailOptions } from 'nodemailer/lib/sendmail-transport/index.js'
 // import { Server } from 'socket.io'
 
 dotenv.config()
@@ -35,7 +35,7 @@ const createTransporter = async () => {
 
   return transporter;
 };
-const sendEmail = async (emailOptions: MailOptions) => {
+const sendEmail = async (emailOptions: nodemailer.SendMailOptions) => {
   try {
     const emailTransporter = await createTransporter();
     const res = await emailTransporter.sendMail(emailOptions);
