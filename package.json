@@ -1,12 +1,14 @@
 {
-  "name": "services",
+  "name": "sending",
   "version": "1.0.0",
   "main": "server.ts",
   "type": "module",
   "scripts": {
     "dev": "node --env-file=.env server.ts",
     "start": "node --import=tsx server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky",
+    "biome": "npx @biomejs/biome check --write"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +16,8 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@types/nodemailer": "^6.4.17",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "tsx": "^4.19.4"
   },
   "dependencies": {

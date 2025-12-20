@@ -1,0 +1,4 @@
+{
+  "*.{js,jsx,ts,tsx}": ["npm run biome"],
+  "*.{json,md,mdx,css,scss,html,yml,yaml}": "npm run biome"
+}
