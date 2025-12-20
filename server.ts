@@ -4,11 +4,6 @@ import express from "express";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
 
-// import dotenv from 'dotenv'
-// import { type MailOptions } from 'nodemailer/lib/sendmail-transport/index.js'
-// import { Server } from 'socket.io'
-
-// dotenv.config()
 const createTransporter = async () => {
 	const OAuth2 = google.auth.OAuth2;
 	const oauth2Client = new OAuth2(
