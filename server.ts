@@ -47,8 +47,8 @@ const sendEmail = async (emailOptions: nodemailer.SendMailOptions) => {
 	}
 }
 
-const app = express();
-const httpServer = createServer(app);
+const app = express()
+const httpServer = createServer(app)
 const corsOptions = {
 	// origin: '*',
 	// origin: 'http://localhost:5173',
