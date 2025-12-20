@@ -8,6 +8,7 @@
     "start": "node --import=tsx server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky",
+    "check:precommit": "lint-staged --no-revert",
     "biome": "npx @biomejs/biome check --write"
   },
   "author": "",
