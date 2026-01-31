@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "server.ts",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "dev": "func start --port 5000",
     "start": "func start --port 5000",
