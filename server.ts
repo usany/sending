@@ -44,13 +44,14 @@ app.http("mail", {
 	handler: async (request: HttpRequest): Promise<HttpResponse> => {
 		// Handle CORS preflight request
 		if (request.method === "OPTIONS") {
+			const headers = new Headers();
+			headers.set("Access-Control-Allow-Origin", "*");
+			headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+			headers.set("Access-Control-Allow-Headers", "Content-Type");
+			
 			return {
 				status: 200,
-				headers: {
-					"Access-Control-Allow-Origin": "*",
-					"Access-Control-Allow-Methods": "POST, OPTIONS",
-					"Access-Control-Allow-Headers": "Content-Type",
-				},
+				headers: headers,
 				body: "",
 			};
 		}
@@ -81,22 +82,26 @@ app.http("mail", {
 				});
 			}
 			
+			const headers = new Headers();
+			headers.set("Access-Control-Allow-Origin", "*");
+			headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+			headers.set("Access-Control-Allow-Headers", "Content-Type");
+			headers.set("Content-Type", "application/json");
+			
 			return {
 				status: 200,
-				headers: {
-					"Access-Control-Allow-Origin": "*",
-					"Access-Control-Allow-Methods": "POST, OPTIONS",
-					"Access-Control-Allow-Headers": "Content-Type",
-				},
+				headers: headers,
 				body: JSON.stringify({ res: "sending" }),
 			};
 		} catch (error) {
 			console.log(error);
+			const errorHeaders = new Headers();
+			errorHeaders.set("Access-Control-Allow-Origin", "*");
+			errorHeaders.set("Content-Type", "application/json");
+			
 			return {
 				status: 500,
-				headers: {
-					"Access-Control-Allow-Origin": "*",
-				},
+				headers: errorHeaders,
 				body: JSON.stringify({ res: "error" }),
 			};
 		}
