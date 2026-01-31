@@ -1,41 +1,112 @@
+import { config } from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+// Get the current module's directory in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load environment variables from .env file
+const envPath = resolve(__dirname, '.env');
+console.log('Loading .env file from:', envPath);
+const result = config({ path: envPath });
+
+// Debug: Log if .env file was loaded and what variables were found
+if (result.error) {
+    console.error('Error loading .env file:', result.error);
+} else {
+    console.log('Successfully loaded .env file');
+    console.log('Available environment variables:', {
+        CLIENT_ID: process.env.CLIENT_ID ? '***' : 'Not set',
+        CLIENT_SECRET: process.env.CLIENT_SECRET ? '***' : 'Not set',
+        REFRESH_TOKEN: process.env.REFRESH_TOKEN ? '***' : 'Not set',
+        USER: process.env.USER || 'Not set',
+        NODE_ENV: process.env.NODE_ENV || 'Not set'
+    });
+}
+
+// Rest of your imports
 import { app } from "@azure/functions";
 import type { HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
 const createTransporter = async () => {
-	const OAuth2 = google.auth.OAuth2;
-	const oauth2Client = new OAuth2(
-		process.env.CLIENTID,
-		process.env.CLIENTSECRET,
-		"https://developers.google.com/oauthplayground",
-	);
-	oauth2Client.setCredentials({
-		refresh_token: process.env.REFRESHTOKEN,
-	});
-	const { token: accessToken } = await oauth2Client.getAccessToken();
-	const transporter = nodemailer.createTransport({
-		service: "gmail",
-		auth: {
-			type: "OAuth2",
-			user: process.env.USER,
-			accessToken: accessToken as string,
-			clientId: process.env.CLIENTID,
-			clientSecret: process.env.CLIENTSECRET,
-			refreshToken: process.env.REFRESHTOKEN,
-		},
-	});
+    try {
+        console.log('Creating OAuth2 client...');
+        const OAuth2 = google.auth.OAuth2;
+        
+        // Log environment variables (remove in production)
+        console.log('Environment variables:', {
+            CLIENT_ID: process.env.CLIENT_ID ? '***' : 'Not set',
+            CLIENT_SECRET: process.env.CLIENT_SECRET ? '***' : 'Not set',
+            REFRESH_TOKEN: process.env.REFRESH_TOKEN ? '***' : 'Not set',
+            USER: process.env.USER || 'Not set'
+        });
 
-	return transporter;
+        if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.REFRESH_TOKEN || !process.env.USER) {
+            throw new Error('Missing required environment variables. Check CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, and USER.');
+        }
+
+        const oauth2Client = new OAuth2(
+            process.env.CLIENT_ID,
+            process.env.CLIENT_SECRET,
+            "https://developers.google.com/oauthplayground"
+        );
+        
+        oauth2Client.setCredentials({
+            refresh_token: process.env.REFRESH_TOKEN
+        });
+        
+        console.log('Getting access token...');
+        const { token: accessToken } = await oauth2Client.getAccessToken();
+        
+        if (!accessToken) {
+            throw new Error('Failed to get access token');
+        }
+
+        console.log('Creating transport...');
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                type: "OAuth2",
+                user: process.env.USER,
+                clientId: process.env.CLIENT_ID,
+                clientSecret: process.env.CLIENT_SECRET,
+                refreshToken: process.env.REFRESH_TOKEN,
+                accessToken: accessToken as string,
+            },
+        });
+
+        // Verify the transporter
+        await transporter.verify();
+        console.log('Transporter verified and ready');
+        return transporter;
+    } catch (error) {
+        console.error('Error in createTransporter:', error);
+        throw error; // Re-throw to be caught by the calling function
+    }
 };
 const sendEmail = async (emailOptions: nodemailer.SendMailOptions) => {
-	try {
-		const emailTransporter = await createTransporter();
-		const res = await emailTransporter.sendMail(emailOptions);
-		console.log("sending");
-		return res;
-	} catch (error) {
-		console.log(error);
-	}
+    try {
+        console.log('Creating email transporter...');
+        const emailTransporter = await createTransporter();
+        
+        console.log('Sending email with options:', {
+            ...emailOptions,
+            text: emailOptions.text ? '***' : 'No text',
+            html: emailOptions.html ? '***' : 'No HTML',
+            to: emailOptions.to,
+            from: emailOptions.from,
+            subject: emailOptions.subject
+        });
+        
+        const res = await emailTransporter.sendMail(emailOptions);
+        console.log('Email sent successfully:', res.messageId);
+        return res;
+    } catch (error) {
+        console.error('Error in sendEmail:', error);
+        throw error; // Re-throw to be caught by the HTTP handler
+    }
 };
 
 app.http("mail", {
