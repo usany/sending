@@ -1,4 +1,5 @@
-import { app, HttpRequest, HttpResponse } from "@azure/functions";
+import { app } from "@azure/functions";
+import type { HttpRequest, HttpResponse } from "@azure/functions";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
 const createTransporter = async () => {
@@ -38,9 +39,22 @@ const sendEmail = async (emailOptions: nodemailer.SendMailOptions) => {
 };
 
 app.http("mail", {
-	methods: ["POST"],
+	methods: ["POST", "OPTIONS"],
 	authLevel: "anonymous",
 	handler: async (request: HttpRequest): Promise<HttpResponse> => {
+		// Handle CORS preflight request
+		if (request.method === "OPTIONS") {
+			return {
+				status: 200,
+				headers: {
+					"Access-Control-Allow-Origin": "*",
+					"Access-Control-Allow-Methods": "POST, OPTIONS",
+					"Access-Control-Allow-Headers": "Content-Type",
+				},
+				body: "",
+			};
+		}
+
 		try {
 			const reqMethod = request.method;
 			const reqURL = request.url;
@@ -69,12 +83,20 @@ app.http("mail", {
 			
 			return {
 				status: 200,
+				headers: {
+					"Access-Control-Allow-Origin": "*",
+					"Access-Control-Allow-Methods": "POST, OPTIONS",
+					"Access-Control-Allow-Headers": "Content-Type",
+				},
 				body: JSON.stringify({ res: "sending" }),
 			};
 		} catch (error) {
 			console.log(error);
 			return {
 				status: 500,
+				headers: {
+					"Access-Control-Allow-Origin": "*",
+				},
 				body: JSON.stringify({ res: "error" }),
 			};
 		}
