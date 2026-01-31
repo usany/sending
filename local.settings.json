@@ -1,1 +1,1 @@
-{"IsEncrypted": false, "Values": {"FUNCTIONS_WORKER_RUNTIME": "node", "CLIENTID": "", "CLIENTSECRET": "", "REFRESHTOKEN": "", "USER": ""}, "ConnectionStrings": {}}
+{"IsEncrypted": false, "Values": {"FUNCTIONS_WORKER_RUNTIME": "node"}, "ConnectionStrings": {}}

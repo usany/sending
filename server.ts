@@ -1,30 +1,3 @@
-import { config } from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
-
-// Get the current module's directory in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Load environment variables from .env file
-const envPath = resolve(__dirname, '.env');
-console.log('Loading .env file from:', envPath);
-const result = config({ path: envPath });
-
-// Debug: Log if .env file was loaded and what variables were found
-if (result.error) {
-    console.error('Error loading .env file:', result.error);
-} else {
-    console.log('Successfully loaded .env file');
-    console.log('Available environment variables:', {
-        CLIENT_ID: process.env.CLIENT_ID ? '***' : 'Not set',
-        CLIENT_SECRET: process.env.CLIENT_SECRET ? '***' : 'Not set',
-        REFRESH_TOKEN: process.env.REFRESH_TOKEN ? '***' : 'Not set',
-        USER: process.env.USER || 'Not set',
-        NODE_ENV: process.env.NODE_ENV || 'Not set'
-    });
-}
-
 // Rest of your imports
 import { app } from "@azure/functions";
 import type { HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
