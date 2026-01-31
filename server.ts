@@ -1,9 +1,6 @@
-import { createServer } from "node:http";
-import cors from "cors";
-import express from "express";
+import { app, HttpRequest, HttpResponse } from "@azure/functions";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
-
 const createTransporter = async () => {
 	const OAuth2 = google.auth.OAuth2;
 	const oauth2Client = new OAuth2(
@@ -40,54 +37,46 @@ const sendEmail = async (emailOptions: nodemailer.SendMailOptions) => {
 	}
 };
 
-const app = express();
-const httpServer = createServer(app);
-const corsOptions = {
-	// origin: '*',
-	// origin: 'http://localhost:5173',
-	// origin: 'https://usany.github.io',
-	// origin: 'https://usany-github-io.vercel.app',
-	// origin: 'https://khusan.co.kr',
-	origin: [
-		"http://localhost:5173",
-		"https://usany.github.io",
-		"https://usany-github-io.vercel.app",
-		"https://khusan.co.kr",
-	],
-	optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
-app.use(express.json());
-app.post("/mail", async (req, res) => {
-	try {
-		const reqMethod = req.method;
-		const reqURL = req.url;
-		console.log(`${reqMethod} ${reqURL}`);
-		const language = req.body.language;
-		const subject =
-			language === "ko"
-				? "환영합니다 쿠우산입니다! 가입 번호입니다."
-				: "Welcome to KHUSAN! Here is the verification number.";
-		const text =
-			language === "ko"
-				? `환영합니다. 번호는 ${req.body.number}입니다. 문의사항은 메일로 보내주세요.`
-				: `Welcome. The number is ${req.body.number}. Kindly send any inquiries to this email.`;
-		if (reqMethod === "POST" && reqURL === "/mail") {
-			console.log("sending");
-			await sendEmail({
-				subject: subject,
-				text: text,
-				to: req.body.to,
-				from: process.env.USER,
-			});
+app.http("mail", {
+	methods: ["POST"],
+	authLevel: "anonymous",
+	handler: async (request: HttpRequest): Promise<HttpResponse> => {
+		try {
+			const reqMethod = request.method;
+			const reqURL = request.url;
+			console.log(`${reqMethod} ${reqURL}`);
+			
+			const body = await request.json() as { language: string; number: string; to: string };
+			const language = body.language;
+			const subject =
+				language === "ko"
+					? "환영합니다 쿠우산입니다! 가입 번호입니다."
+					: "Welcome to KHUSAN! Here is the verification number.";
+			const text =
+				language === "ko"
+					? `환영합니다. 번호는 ${body.number}입니다. 문의사항은 메일로 보내주세요.`
+					: `Welcome. The number is ${body.number}. Kindly send any inquiries to this email.`;
+			
+			if (reqMethod === "POST" && reqURL.includes("/mail")) {
+				console.log("sending");
+				await sendEmail({
+					subject: subject,
+					text: text,
+					to: body.to,
+					from: process.env.USER,
+				});
+			}
+			
+			return {
+				status: 200,
+				body: JSON.stringify({ res: "sending" }),
+			};
+		} catch (error) {
+			console.log(error);
+			return {
+				status: 500,
+				body: JSON.stringify({ res: "error" }),
+			};
 		}
-		res.send(JSON.stringify({ res: "sending" }));
-	} catch (error) {
-		console.log(error);
-		res.send(JSON.stringify({ res: "error" }));
-	}
-});
-
-httpServer.listen(5000, () => {
-	console.log("ready");
+	},
 });

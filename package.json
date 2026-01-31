@@ -21,6 +21,7 @@
     "lint-staged": "^16.2.7"
   },
   "dependencies": {
+    "@azure/functions": "^4.11.0",
     "cors": "^2.8.5",
     "express": "^5.2.1",
     "googleapis": "^169.0.0",
