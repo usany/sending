@@ -21,6 +21,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-httpServer.listen(3000, '0.0.0.0/0', () => {
+httpServer.listen(3000, '0.0.0.0', () => {
 	console.log("ready");
 });
