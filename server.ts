@@ -88,6 +88,6 @@ app.post("/mail", async (req, res) => {
 	}
 });
 
-httpServer.listen(5000, () => {
+httpServer.listen(3000, () => {
 	console.log("ready");
 });
