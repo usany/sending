@@ -145,40 +145,36 @@ app.post('/api/comments/:slug', async (req, res) => {
 app.put('/api/comment/:slug', async (req, res) => {
 	try {
 		const { slug } = req.params;
-		const { author, content, email } = req.body;
-
+		const { id, content } = req.body;
+		console.log(req.body);
 		// Validate input
-		if (!author || !content || !email) {
-			return res.status(400).json({
-				success: false,
-				error: 'Author, content, and email are required',
-			});
-		}
+		// if (!author || !content || !email) {
+		// 	return res.status(400).json({
+		// 		success: false,
+		// 		error: 'Author, content, and email are required',
+		// 	});
+		// }
 
 		// Basic email validation if provided (simplified for tutorial purposes)
 		// For production, consider using a validation library or more comprehensive checks
-		if (email && (!email.includes('@') || !email.includes('.'))) {
-			return res.status(400).json({
-				success: false,
-				error: 'Invalid email format',
-			});
-		}
+		// if (email && (!email.includes('@') || !email.includes('.'))) {
+		// 	return res.status(400).json({
+		// 		success: false,
+		// 		error: 'Invalid email format',
+		// 	});
+		// }
 
 		// Build dynamic update query
 		const values: any[] = [];
 
-		values.push(author);
-
 		values.push(content);
-
-		values.push(email);
 
 		const updated_at = new Date().toISOString();
 		values.push(updated_at);
-		values.push(slug);
+		values.push(id);
 
 		const result = await env.instructions_db
-			.prepare(`UPDATE comments SET author = ?, content = ?, email = ?, updated_at = ? WHERE slug = ?`)
+			.prepare(`UPDATE comments SET content = ?, updated_at = ? WHERE id = ?`)
 			.bind(...values)
 			.run();
 
