@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
+		"remote": "npx wrangler dev --remote --port 8787",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
 		"test": "vitest",
