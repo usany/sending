@@ -12,7 +12,14 @@
 	},
 	"compatibility_flags": [
 		"nodejs_compat"
-	]
+	],
+	"d1_databases": [
+		{
+			"binding": "instructions_db",
+			"database_name": "instructions-db",
+			"database_id": "4c06b4b6-2d1d-49e7-a622-a5c78038ea25"
+		}
+	],
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
