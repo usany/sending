@@ -7,23 +7,23 @@ import { google } from "googleapis";
 const createTransporter = async () => {
 	const OAuth2 = google.auth.OAuth2;
 	const oauth2Client = new OAuth2(
-		process.env.CLIENTID,
-		process.env.CLIENTSECRET,
+		env.CLIENTID,
+		env.CLIENTSECRET,
 		"https://developers.google.com/oauthplayground",
 	);
 	oauth2Client.setCredentials({
-		refresh_token: process.env.REFRESHTOKEN,
+		refresh_token: env.REFRESHTOKEN,
 	});
 	const { token: accessToken } = await oauth2Client.getAccessToken();
 	const transporter = nodemailer.createTransport({
 		service: "gmail",
 		auth: {
 			type: "OAuth2",
-			user: process.env.USER,
+			user: env.USER,
 			accessToken: accessToken as string,
-			clientId: process.env.CLIENTID,
-			clientSecret: process.env.CLIENTSECRET,
-			refreshToken: process.env.REFRESHTOKEN,
+			clientId: env.CLIENTID,
+			clientSecret: env.CLIENTSECRET,
+			refreshToken: env.REFRESHTOKEN,
 		},
 	});
 
@@ -78,7 +78,7 @@ app.post("/mail", async (req, res) => {
 				subject: subject,
 				text: text,
 				to: req.body.to,
-				from: process.env.USER,
+				from: env.USER,
 			});
 		}
 		res.send(JSON.stringify({ res: "sending" }));
