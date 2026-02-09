@@ -3,7 +3,7 @@ import { httpServerHandler } from "cloudflare:node";
 import express from "express";
 import cors from "cors";
 import nodemailer from "nodemailer";
-import google from "googleapis";
+import { google } from "googleapis";
 const createTransporter = async () => {
 	const OAuth2 = google.auth.OAuth2;
 	const oauth2Client = new OAuth2(
