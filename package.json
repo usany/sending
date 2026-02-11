@@ -1,7 +1,8 @@
 {
-	"name": "server",
+	"name": "sending",
 	"version": "0.0.0",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"deploy": "wrangler deploy",
 		"remote": "npx wrangler dev --remote --port 8787",
