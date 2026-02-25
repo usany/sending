@@ -55,6 +55,7 @@ const corsOptions = {
     "https://khusan.co.kr",
     "https://begin.khusan.co.kr",
     "https://maps.khusan.co.kr",
+    "https://unify-beige.vercel.app"
   ],
   optionsSuccessStatus: 200,
 };
