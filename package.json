@@ -1,30 +1,30 @@
 {
-	"name": "sending",
-	"version": "0.0.0",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"deploy": "wrangler deploy",
-		"remote": "npx wrangler dev --remote --port 8787",
-		"dev": "wrangler dev",
-		"start": "wrangler dev",
-		"test": "vitest",
-		"cf-typegen": "wrangler types"
-	},
-	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "^0.12.4",
-		"@types/node": "^25.2.2",
-		"@types/cors": "^2.8.19",
-		"@types/express": "^5.0.6",
-		"@types/nodemailer": "^7.0.4",
-		"typescript": "^5.5.2",
-		"vitest": "~3.2.0",
-		"wrangler": "^4.63.0"
-	},
-	"dependencies": {
-		"express": "^5.2.1",
-		"cors": "^2.8.5",
-		"googleapis": "^169.0.0",
-		"nodemailer": "^7.0.11"
-	}
+  "name": "sending",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "remote": "npx wrangler dev --remote --port 8787",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "test": "vitest",
+    "cf-typegen": "wrangler types"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.12.4",
+    "@types/node": "^25.2.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/nodemailer": "^7.0.4",
+    "typescript": "^5.5.2",
+    "vitest": "~3.2.0",
+    "wrangler": "^4.63.0"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "cors": "^2.8.5",
+    "googleapis": "^169.0.0",
+    "nodemailer": "^7.0.11"
+  }
 }
