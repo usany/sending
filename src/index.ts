@@ -55,8 +55,6 @@ const corsOptions = {
     "https://khusan.co.kr",
     "https://begin.khusan.co.kr",
     "https://maps.khusan.co.kr",
-    "http://maps.khusan.co.kr",
-    "http://begin.khusan.co.kr"
   ],
   optionsSuccessStatus: 200,
 };
