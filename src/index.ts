@@ -213,12 +213,6 @@ app.put("/api/comment/:slug", async (req, res) => {
       .bind(...values)
       .run();
 
-    if (result.meta.changes === 0) {
-      return res
-        .status(404)
-        .json({ success: false, error: "Comment not found" });
-    }
-
     res.json({ success: true, message: "Comment updated successfully" });
   } catch (error: any) {
     // if (error.message?.includes("UNIQUE constraint failed")) {
@@ -265,12 +259,6 @@ app.delete("/api/comments/:id", async (req, res) => {
       .prepare("DELETE FROM comments WHERE id = ?")
       .bind(id)
       .run();
-
-    if (result.meta.changes === 0) {
-      return res
-        .status(404)
-        .json({ success: false, error: "Comment not found" });
-    }
 
     res.json({ success: true, message: "Comment deleted successfully" });
   } catch (error) {
