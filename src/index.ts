@@ -55,7 +55,7 @@ const corsOptions = {
   // origin: 'https://usany-github-io.vercel.app',
   // origin: 'https://khusan.co.kr',
   origin: [
-    // "http://localhost:3000",
+    "http://localhost:3000",
     "http://localhost:5173",
     "https://usany.github.io",
     "https://usany-github-io.vercel.app",
