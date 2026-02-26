@@ -62,7 +62,7 @@ const corsOptions = {
     "https://khusan.co.kr",
     "https://begin.khusan.co.kr",
     "https://maps.khusan.co.kr",
-    "https://unify-beige.vercel.app"
+    "https://unify-beige.vercel.app",
   ],
   optionsSuccessStatus: 200,
 };
@@ -151,10 +151,9 @@ app.post("/api/comments/:slug", async (req, res) => {
 // PUT - Update a comment
 app.put("/api/comment/:slug", async (req, res) => {
   try {
-    const { slug } = req.params;
     const { id, content, password } = req.body;
     console.log(req.body);
-    
+
     // Validate input
     if (!id || !content || !password) {
       return res.status(400).json({
