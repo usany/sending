@@ -165,24 +165,35 @@ app.post("/api/comments/:slug", async (req, res) => {
 app.put("/api/comment/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
-    const { id, content } = req.body;
+    const { id, content, password } = req.body;
     console.log(req.body);
+    
     // Validate input
-    // if (!author || !content || !email) {
-    // 	return res.status(400).json({
-    // 		success: false,
-    // 		error: 'Author, content, and email are required',
-    // 	});
-    // }
+    if (!id || !content || !password) {
+      return res.status(400).json({
+        success: false,
+        error: "ID, content, and password are required",
+      });
+    }
 
-    // Basic email validation if provided (simplified for tutorial purposes)
-    // For production, consider using a validation library or more comprehensive checks
-    // if (email && (!email.includes('@') || !email.includes('.'))) {
-    // 	return res.status(400).json({
-    // 		success: false,
-    // 		error: 'Invalid email format',
-    // 	});
-    // }
+    // First, get the comment to verify the password
+    const comment = await env.instructions_db
+      .prepare("SELECT * FROM comments WHERE id = ?")
+      .bind(id)
+      .first();
+
+    if (!comment) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Comment not found" });
+    }
+
+    // Check if password matches (assuming password is stored in email field)
+    if (comment.email !== password) {
+      return res
+        .status(401)
+        .json({ success: false, error: "Invalid password" });
+    }
 
     // Build dynamic update query
     const values: any[] = [];
@@ -216,10 +227,38 @@ app.put("/api/comment/:slug", async (req, res) => {
   }
 });
 
-// DELETE - Delete a member
+// DELETE - Delete a comment
 app.delete("/api/comments/:id", async (req, res) => {
   try {
     const { id } = req.params;
+    const { password } = req.body;
+
+    // Validate input
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        error: "Password is required",
+      });
+    }
+
+    // First, get the comment to verify the password
+    const comment = await env.instructions_db
+      .prepare("SELECT * FROM comments WHERE id = ?")
+      .bind(id)
+      .first();
+
+    if (!comment) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Comment not found" });
+    }
+
+    // Check if password matches (assuming password is stored in email field)
+    if (comment.email !== password) {
+      return res
+        .status(401)
+        .json({ success: false, error: "Invalid password" });
+    }
 
     const result = await env.instructions_db
       .prepare("DELETE FROM comments WHERE id = ?")
