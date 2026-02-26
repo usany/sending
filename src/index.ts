@@ -144,13 +144,6 @@ app.post("/api/comments/:slug", async (req, res) => {
       });
     }
   } catch (error: any) {
-    // Handle unique constraint violation
-    // if (error.message?.includes("UNIQUE constraint failed")) {
-    //   return res.status(409).json({
-    //     success: false,
-    //     error: "Comment already exists",
-    //   });
-    // }
     res.status(500).json({ success: false, error: "Failed to create comment" });
   }
 });
