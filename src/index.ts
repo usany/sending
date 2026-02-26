@@ -117,22 +117,13 @@ app.get("/api/comments/:slug", async (req, res) => {
 app.post("/api/comments/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
-    const { author, content, email } = req.body;
+    const { author, content, password } = req.body;
 
     // Validate input
-    if (!author || !content || !email) {
+    if (!author || !content || !password) {
       return res.status(400).json({
         success: false,
-        error: "Author, name, and email are required",
-      });
-    }
-
-    // Basic email validation (simplified for tutorial purposes)
-    // For production, consider using a validation library or more comprehensive checks
-    if (!email.includes("@") || !email.includes(".")) {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid email format",
+        error: "Author, content, and password are required",
       });
     }
 
@@ -140,9 +131,9 @@ app.post("/api/comments/:slug", async (req, res) => {
 
     const result = await env.instructions_db
       .prepare(
-        "INSERT INTO comments (slug, author, content, email, created_at) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO comments (slug, author, content, password, created_at) VALUES (?, ?, ?, ?, ?)",
       )
-      .bind(slug, author, content, email, created_at)
+      .bind(slug, author, content, password, created_at)
       .run();
 
     if (result.success) {
@@ -188,8 +179,8 @@ app.put("/api/comment/:slug", async (req, res) => {
         .json({ success: false, error: "Comment not found" });
     }
 
-    // Check if password matches (assuming password is stored in email field)
-    if (comment.email !== password) {
+    // Check if password matches
+    if (comment.password !== password) {
       return res
         .status(401)
         .json({ success: false, error: "Invalid password" });
@@ -244,8 +235,8 @@ app.delete("/api/comments/:id", async (req, res) => {
         .json({ success: false, error: "Comment not found" });
     }
 
-    // Check if password matches (assuming password is stored in email field)
-    if (comment.email !== password) {
+    // Check if password matches
+    if (comment.password !== password) {
       return res
         .status(401)
         .json({ success: false, error: "Invalid password" });
