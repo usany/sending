@@ -198,10 +198,10 @@ app.put("/api/comment/:slug", async (req, res) => {
   }
 });
 
-// DELETE - Delete a comment
-app.delete("/api/comments/:id", async (req, res) => {
+// POST - Verify password for a comment
+app.post("/api/comments/:commentId/verify-password", async (req, res) => {
   try {
-    const { id } = req.params;
+    const { commentId } = req.params;
     const { password } = req.body;
 
     // Validate input
@@ -212,8 +212,8 @@ app.delete("/api/comments/:id", async (req, res) => {
       });
     }
 
-    // First, get the comment to verify the password
-    const comment = await getCommentById(id);
+    // Get the comment to verify the password
+    const comment = await getCommentById(commentId);
 
     if (!comment) {
       return res
@@ -222,6 +222,40 @@ app.delete("/api/comments/:id", async (req, res) => {
     }
 
     // Check if password matches
+    if (comment.password !== password) {
+      return res
+        .status(401)
+        .json({ success: false, error: "Invalid password" });
+    }
+
+    // Password is correct
+    res.json({ success: true, message: "Password verified successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: "Password verification failed" });
+  }
+});
+
+// DELETE - Delete a comment
+app.delete("/api/comments/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { password } = req.body;
+
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        error: "Password is required",
+      });
+    }
+
+    const comment = await getCommentById(id);
+
+    if (!comment) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Comment not found" });
+    }
+
     if (comment.password !== password) {
       return res
         .status(401)
