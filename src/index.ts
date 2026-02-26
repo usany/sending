@@ -195,7 +195,7 @@ app.put("/api/comment/:slug", async (req, res) => {
     values.push(updated_at);
     values.push(id);
 
-    const result = await env.instructions_db
+    await env.instructions_db
       .prepare(`UPDATE comments SET content = ?, updated_at = ? WHERE id = ?`)
       .bind(...values)
       .run();
@@ -242,7 +242,7 @@ app.delete("/api/comments/:id", async (req, res) => {
         .json({ success: false, error: "Invalid password" });
     }
 
-    const result = await env.instructions_db
+    await env.instructions_db
       .prepare("DELETE FROM comments WHERE id = ?")
       .bind(id)
       .run();
