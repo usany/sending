@@ -40,6 +40,13 @@ const sendEmail = async (emailOptions: nodemailer.SendMailOptions) => {
   }
 };
 
+const getCommentById = async (id: string) => {
+  return await env.instructions_db
+    .prepare("SELECT * FROM comments WHERE id = ?")
+    .bind(id)
+    .first();
+};
+
 const app = express();
 const corsOptions = {
   // origin: '*',
@@ -177,10 +184,7 @@ app.put("/api/comment/:slug", async (req, res) => {
     }
 
     // First, get the comment to verify the password
-    const comment = await env.instructions_db
-      .prepare("SELECT * FROM comments WHERE id = ?")
-      .bind(id)
-      .first();
+    const comment = await getCommentById(id);
 
     if (!comment) {
       return res
@@ -242,10 +246,7 @@ app.delete("/api/comments/:id", async (req, res) => {
     }
 
     // First, get the comment to verify the password
-    const comment = await env.instructions_db
-      .prepare("SELECT * FROM comments WHERE id = ?")
-      .bind(id)
-      .first();
+    const comment = await getCommentById(id);
 
     if (!comment) {
       return res
