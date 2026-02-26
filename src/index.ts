@@ -202,12 +202,6 @@ app.put("/api/comment/:slug", async (req, res) => {
 
     res.json({ success: true, message: "Comment updated successfully" });
   } catch (error: any) {
-    // if (error.message?.includes("UNIQUE constraint failed")) {
-    //   return res.status(409).json({
-    //     success: false,
-    //     error: "Email already exists",
-    //   });
-    // }
     res.status(500).json({ success: false, error: "Failed to update comment" });
   }
 });
