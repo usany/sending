@@ -163,11 +163,6 @@ app.post("/api/comments/:slug", async (req, res) => {
         message: "Comment created successfully",
         id: result.meta.last_row_id,
       });
-    } else {
-      res.status(500).json({ 
-        success: false, 
-        error: "Failed to create comment: Database operation failed" 
-      });
     }
   } catch (error: any) {
     res.status(500).json({ success: false, error: "Failed to create comment" });
