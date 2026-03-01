@@ -163,6 +163,7 @@ app.post("/api/comments/:slug", async (req, res) => {
       });
     }
   } catch (error: any) {
+    console.log(error);
     res.status(500).json({ success: false, error: "Failed to create comment" });
   }
 });
