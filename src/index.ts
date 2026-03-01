@@ -173,16 +173,16 @@ app.post("/api/comments/:slug", async (req, res) => {
 app.put("/api/comments/:slug", async (req, res) => {
   try {
     // Validate request body with Zod schema
-    const validationResult = UpdateCommentSchema.safeParse(req.body);
-    if (!validationResult.success) {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid update data",
-        details: validationResult.error.issues
-      });
-    }
+    // const validationResult = UpdateCommentSchema.safeParse(req.body);
+    // if (!validationResult.success) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     error: "Invalid update data",
+    //     details: validationResult.error.issues
+    //   });
+    // }
     
-    const { id, content, password } = validationResult.data;
+    const { id, content, password } = req.body;
     console.log(req.body);
 
     // First, get the comment to verify the password
