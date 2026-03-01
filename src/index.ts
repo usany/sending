@@ -10,7 +10,7 @@ import {
   UpdateCommentSchema,
   VerifyPasswordSchema,
   DeleteCommentSchema
-} from './schema';
+} from './types/schema';
 const createTransporter = async () => {
   const OAuth2 = google.auth.OAuth2;
   const oauth2Client = new OAuth2(
@@ -170,7 +170,7 @@ app.post("/api/comments/:slug", async (req, res) => {
 });
 
 // PUT - Update a comment
-app.put("/api/comment/:slug", async (req, res) => {
+app.put("/api/comments/:slug", async (req, res) => {
   try {
     // Validate request body with Zod schema
     const validationResult = UpdateCommentSchema.safeParse(req.body);
