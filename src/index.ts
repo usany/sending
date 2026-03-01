@@ -134,8 +134,6 @@ app.get("/api/comments/:slug", async (req, res) => {
 // POST - Create a new comment
 app.post("/api/comments/:slug", async (req, res) => {
   try {
-    const { slug } = req.params;
-    
     // Validate request body with Zod schema
     const validationResult = CreateCommentSchema.safeParse(req.body);
     if (!validationResult.success) {
@@ -146,7 +144,7 @@ app.post("/api/comments/:slug", async (req, res) => {
       });
     }
     
-    const { author, content, password } = validationResult.data;
+    const { slug, author, content, password } = validationResult.data;
 
     const created_at = new Date().toISOString();
 
