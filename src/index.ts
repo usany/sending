@@ -4,6 +4,13 @@ import express from "express";
 import cors from "cors";
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
+import {
+  EmailRequestSchema,
+  CreateCommentSchema,
+  UpdateCommentSchema,
+  VerifyPasswordSchema,
+  DeleteCommentSchema
+} from './schema';
 const createTransporter = async () => {
   const OAuth2 = google.auth.OAuth2;
   const oauth2Client = new OAuth2(
@@ -74,21 +81,32 @@ app.post("/mail", async (req, res) => {
     const reqMethod = req.method;
     const reqURL = req.url;
     console.log(`${reqMethod} ${reqURL}`);
-    const language = req.body.language;
+    
+    // Validate request body with Zod schema
+    const validationResult = EmailRequestSchema.safeParse(req.body);
+    if (!validationResult.success) {
+      return res.status(400).json({
+        success: false,
+        error: "Invalid request data",
+        details: validationResult.error.issues
+      });
+    }
+    
+    const { to, number, language } = validationResult.data;
     const subject =
       language === "ko"
         ? "환영합니다 쿠우산입니다! 가입 번호입니다."
         : "Welcome to KHUSAN! Here is the verification number.";
     const text =
       language === "ko"
-        ? `환영합니다. 번호는 ${req.body.number}입니다. 문의사항은 메일로 보내주세요.`
-        : `Welcome. The number is ${req.body.number}. Kindly send any inquiries to this email.`;
+        ? `환영합니다. 번호는 ${number}입니다. 문의사항은 메일로 보내주세요.`
+        : `Welcome. The number is ${number}. Kindly send any inquiries to this email.`;
     if (reqMethod === "POST" && reqURL === "/mail") {
       console.log("sending");
       await sendEmail({
         subject: subject,
         text: text,
-        to: req.body.to,
+        to: to,
         from: env.USER,
       });
     }
@@ -117,15 +135,18 @@ app.get("/api/comments/:slug", async (req, res) => {
 app.post("/api/comments/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
-    const { author, content, password } = req.body;
-
-    // Validate input
-    if (!author || !content || !password) {
+    
+    // Validate request body with Zod schema
+    const validationResult = CreateCommentSchema.safeParse(req.body);
+    if (!validationResult.success) {
       return res.status(400).json({
         success: false,
-        error: "Author, content, and password are required",
+        error: "Invalid comment data",
+        details: validationResult.error.issues
       });
     }
+    
+    const { author, content, password } = validationResult.data;
 
     const created_at = new Date().toISOString();
 
@@ -151,16 +172,18 @@ app.post("/api/comments/:slug", async (req, res) => {
 // PUT - Update a comment
 app.put("/api/comment/:slug", async (req, res) => {
   try {
-    const { id, content, password } = req.body;
-    console.log(req.body);
-
-    // Validate input
-    if (!id || !content || !password) {
+    // Validate request body with Zod schema
+    const validationResult = UpdateCommentSchema.safeParse(req.body);
+    if (!validationResult.success) {
       return res.status(400).json({
         success: false,
-        error: "ID, content, and password are required",
+        error: "Invalid update data",
+        details: validationResult.error.issues
       });
     }
+    
+    const { id, content, password } = validationResult.data;
+    console.log(req.body);
 
     // First, get the comment to verify the password
     const comment = await getCommentById(id);
@@ -202,15 +225,18 @@ app.put("/api/comment/:slug", async (req, res) => {
 app.post("/api/comments/:commentId/verify-password", async (req, res) => {
   try {
     const { commentId } = req.params;
-    const { password } = req.body;
-
-    // Validate input
-    if (!password) {
+    
+    // Validate request body with Zod schema
+    const validationResult = VerifyPasswordSchema.safeParse(req.body);
+    if (!validationResult.success) {
       return res.status(400).json({
         success: false,
-        error: "Password is required",
+        error: "Invalid password data",
+        details: validationResult.error.issues
       });
     }
+    
+    const { password } = validationResult.data;
 
     // Get the comment to verify the password
     const comment = await getCommentById(commentId);
@@ -239,14 +265,18 @@ app.post("/api/comments/:commentId/verify-password", async (req, res) => {
 app.delete("/api/comments/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { password } = req.body;
-
-    if (!password) {
+    
+    // Validate request body with Zod schema
+    const validationResult = DeleteCommentSchema.safeParse(req.body);
+    if (!validationResult.success) {
       return res.status(400).json({
         success: false,
-        error: "Password is required",
+        error: "Invalid password data",
+        details: validationResult.error.issues
       });
     }
+    
+    const { password } = validationResult.data;
 
     const comment = await getCommentById(id);
 
