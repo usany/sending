@@ -163,6 +163,11 @@ app.post("/api/comments/:slug", async (req, res) => {
         message: "Comment created successfully",
         id: result.meta.last_row_id,
       });
+    } else {
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to create comment: Database operation failed" 
+      });
     }
   } catch (error: any) {
     res.status(500).json({ success: false, error: "Failed to create comment" });
@@ -173,14 +178,14 @@ app.post("/api/comments/:slug", async (req, res) => {
 app.put("/api/comments/:slug", async (req, res) => {
   try {
     // Validate request body with Zod schema
-    // const validationResult = UpdateCommentSchema.safeParse(req.body);
-    // if (!validationResult.success) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     error: "Invalid update data",
-    //     details: validationResult.error.issues
-    //   });
-    // }
+    const validationResult = UpdateCommentSchema.safeParse(req.body);
+    if (!validationResult.success) {
+      return res.status(400).json({
+        success: false,
+        error: "Invalid update data",
+        details: validationResult.error.issues
+      });
+    }
     
     const { id, content, password } = req.body;
     console.log(req.body);
