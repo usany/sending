@@ -1,4 +1,4 @@
-import * as zod from 'zod';
+import zod from 'zod';
 
 // Email request schema
 export const EmailRequestSchema = zod.object({
@@ -36,4 +36,4 @@ export type EmailRequest = zod.infer<typeof EmailRequestSchema>;
 export type CreateComment = zod.infer<typeof CreateCommentSchema>;
 export type UpdateComment = zod.infer<typeof UpdateCommentSchema>;
 export type VerifyPassword = zod.infer<typeof VerifyPasswordSchema>;
-export type DeleteComment = zod.infer<typeof DeleteCommentSchema>;
+export type DeletePassword = zod.infer<typeof DeleteCommentSchema>;
