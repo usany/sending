@@ -9,6 +9,7 @@ export const EmailRequestSchema = zod.object({
 
 // Comment creation schema
 export const CreateCommentSchema = zod.object({
+  slug: zod.string().min(1, 'Slug is required'),
   author: zod.string().min(1, 'Author name is required').max(100, 'Author name too long'),
   content: zod.string().min(1, 'Content is required').max(1000, 'Content too long'),
   password: zod.string().min(1, 'Password is required').max(50, 'Password too long')
@@ -16,6 +17,7 @@ export const CreateCommentSchema = zod.object({
 
 // Comment update schema
 export const UpdateCommentSchema = zod.object({
+  slug: zod.string().min(1, 'Slug is required'),
   id: zod.string().min(1, 'Comment ID is required'),
   content: zod.string().min(1, 'Content is required').max(1000, 'Content too long'),
   password: zod.string().min(1, 'Password is required').max(50, 'Password too long')
@@ -28,6 +30,7 @@ export const VerifyPasswordSchema = zod.object({
 
 // Comment deletion schema
 export const DeleteCommentSchema = zod.object({
+  slug: zod.string().min(1, 'Slug is required'),
   password: zod.string().min(1, 'Password is required').max(50, 'Password too long')
 });
 
