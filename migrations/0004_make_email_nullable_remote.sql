@@ -7,15 +7,15 @@ CREATE TABLE comments_temp (
     email TEXT,  -- Making nullable
     content TEXT NOT NULL,
     password TEXT NOT NULL DEFAULT '',
-    parent_id INTEGER NULL,
+    reply_to INTEGER NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (parent_id) REFERENCES comments(id) ON DELETE CASCADE
+    FOREIGN KEY (reply_to) REFERENCES comments(id) ON DELETE CASCADE
 );
 
 -- Copy data from old table to new table
-INSERT INTO comments_temp (id, slug, author, email, content, password, parent_id, created_at, updated_at)
-SELECT id, slug, author, email, content, password, parent_id, created_at, updated_at FROM comments;
+INSERT INTO comments_temp (id, slug, author, email, content, password, reply_to, created_at, updated_at)
+SELECT id, slug, author, email, content, password, reply_to, created_at, updated_at FROM comments;
 
 -- Drop old table
 DROP TABLE comments;
