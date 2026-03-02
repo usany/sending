@@ -144,15 +144,15 @@ app.post("/api/comments/:slug", async (req, res) => {
       });
     }
     
-    const { slug, author, content, password } = validationResult.data;
+    const { slug, author, content, password, reply_to } = validationResult.data;
 
     const created_at = new Date().toISOString();
 
     const result = await env.instructions_db
       .prepare(
-        "INSERT INTO comments (slug, author, content, password, created_at) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO comments (slug, author, content, password, created_at, reply_to) VALUES (?, ?, ?, ?, ?, ?)",
       )
-      .bind(slug, author, content, password, created_at)
+      .bind(slug, author, content, password, created_at, reply_to)
       .run();
 
     if (result.success) {
