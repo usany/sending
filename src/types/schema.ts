@@ -12,7 +12,8 @@ export const CreateCommentSchema = zod.object({
   slug: zod.string().min(1, 'Slug is required'),
   author: zod.string().min(1, 'Author name is required').max(100, 'Author name too long'),
   content: zod.string().min(1, 'Content is required').max(1000, 'Content too long'),
-  password: zod.string().min(1, 'Password is required').max(50, 'Password too long')
+  password: zod.string().min(1, 'Password is required').max(50, 'Password too long'),
+  replyTo: zod.number().optional()
 });
 
 // Comment update schema

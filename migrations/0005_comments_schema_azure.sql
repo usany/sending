@@ -10,6 +10,7 @@ BEGIN
         email NVARCHAR(255) NOT NULL,
         content NVARCHAR(MAX) NOT NULL,
         password NVARCHAR(255) NOT NULL DEFAULT '',
+        replyTo INT NULL,
         created_at DATETIME2 DEFAULT GETUTCDATE(),
         updated_at DATETIME2 DEFAULT GETUTCDATE()
     );
