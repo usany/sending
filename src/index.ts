@@ -143,7 +143,7 @@ app.post("/api/comments/:slug", async (req, res) => {
         details: validationResult.error.issues
       });
     }
-    
+    console.log(validationResult)
     const { slug, author, content, password, reply_to } = validationResult.data;
 
     const created_at = new Date().toISOString();
@@ -152,7 +152,7 @@ app.post("/api/comments/:slug", async (req, res) => {
       .prepare(
         "INSERT INTO comments (slug, author, content, password, created_at, reply_to) VALUES (?, ?, ?, ?, ?, ?)",
       )
-      .bind(slug, author, content, password, created_at, reply_to)
+      .bind(slug, author, content, password, created_at, reply_to || null)
       .run();
 
     if (result.success) {
