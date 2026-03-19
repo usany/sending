@@ -11,7 +11,7 @@ import {
   VerifyPasswordSchema,
   DeleteCommentSchema
 } from './types/schema';
-\
+
 const createTransporter = async () => {
   const OAuth2 = google.auth.OAuth2;
   const oauth2Client = new OAuth2(
