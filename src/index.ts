@@ -57,10 +57,8 @@ const getCommentById = async (id: string) => {
 const app = express();
 const corsOptions = {
   // origin: '*',
+  // origin: 'http://localhost:3000',
   // origin: 'http://localhost:5173',
-  // origin: 'https://usany.github.io',
-  // origin: 'https://usany-github-io.vercel.app',
-  // origin: 'https://khusan.co.kr',
   origin: [
     "http://localhost:3000",
     "http://localhost:5173",
