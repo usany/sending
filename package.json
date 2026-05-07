@@ -22,7 +22,7 @@
     "wrangler": "^4.63.0"
   },
   "dependencies": {
-    "cors": "^2.8.5",
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "googleapis": "^169.0.0",
     "nodemailer": "^7.0.11",
