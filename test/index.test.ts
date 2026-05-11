@@ -139,7 +139,7 @@ describe('API Endpoints', () => {
 	describe('GET /api/comments/:slug', () => {
 		it('should get comments for a slug', async () => {
 			const res = await worker.fetch(
-				new Request('http://localhost:3000/api/comments/test-slug')
+				new Request('http://localhost:8787/api/comments/platform')
 			);
 			const data = await res.json();
 			expect(res.status).toBe(200);
