@@ -27,7 +27,9 @@ jobs:
           cache: 'pnpm'
       
       - name: Install dependencies
-        run: pnpm install --ignore-scripts=false
+        run: |
+          export PNPM_IGNORE_SCRIPTS=false
+          pnpm install
       
       - name: Start dev server in background
         run: pnpm dev &
