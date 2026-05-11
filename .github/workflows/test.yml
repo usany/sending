@@ -35,7 +35,7 @@ jobs:
         run: |
           echo "Waiting for server to start..."
           for i in {1..30}; do
-            if curl -s http://localhost:3000 > /dev/null 2>&1; then
+            if curl -s http://localhost:8787 > /dev/null 2>&1; then
               echo "Server is ready!"
               break
             fi
