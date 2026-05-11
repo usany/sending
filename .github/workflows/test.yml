@@ -2,9 +2,9 @@ name: Test localhost:3000
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, bravo, develop ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, bravo, develop ]
   workflow_dispatch:
 
 jobs:
