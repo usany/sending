@@ -26,10 +26,10 @@ jobs:
           node-version: '22'
       
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
       
       - name: Start dev server in background
-        run: pnpm dev &
+        run: npm run dev &
       
       - name: Wait for server to be ready
         run: |
@@ -44,7 +44,7 @@ jobs:
           done
       
       - name: Run tests
-        run: pnpm test
+        run: npm run test
       
       - name: Cleanup
         if: always()
