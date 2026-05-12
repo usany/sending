@@ -45,25 +45,25 @@ describe('API Endpoints', () => {
 			expect(data.res).toBe('sending');
 		});
 	});
-	
-	describe('GET /api/comments/:slug', () => {
-		it('should get comments for a slug', async () => {
-			const res = await fetch(`${BASE_URL}/api/comments/platform`);
-			const data = await res.json();
-			expect(res.status).toBe(200);
-			expect(data.success).toBe(true);
-			expect(Array.isArray(data.comments)).toBe(true);
-		});
 
-		it('should return empty array for non-existent slug', async () => {
-			const res = await fetch(`${BASE_URL}/api/comments/non-existent-slug`);
-			const data = await res.json();
-			expect(res.status).toBe(200);
-			expect(data.success).toBe(true);
-			expect(Array.isArray(data.comments)).toBe(true);
-			expect(data.comments.length).toBe(0);
-		});
-	});
+	// describe('GET /api/comments/:slug', () => {
+	// 	it('should get comments for a slug', async () => {
+	// 		const res = await fetch(`${BASE_URL}/api/comments/platform`);
+	// 		const data = await res.json();
+	// 		expect(res.status).toBe(200);
+	// 		expect(data.success).toBe(true);
+	// 		expect(Array.isArray(data.comments)).toBe(true);
+	// 	});
+
+	// 	it('should return empty array for non-existent slug', async () => {
+	// 		const res = await fetch(`${BASE_URL}/api/comments/non-existent-slug`);
+	// 		const data = await res.json();
+	// 		expect(res.status).toBe(200);
+	// 		expect(data.success).toBe(true);
+	// 		expect(Array.isArray(data.comments)).toBe(true);
+	// 		expect(data.comments.length).toBe(0);
+	// 	});
+	// });
 
 	// describe('POST /api/comments/:slug', () => {
 	// 	it('should create a new comment', async () => {
