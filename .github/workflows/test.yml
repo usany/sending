@@ -28,36 +28,26 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       
-      - name: Build & Deploy Worker
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CFAPITOKEN }}
-          accountId: ${{ secrets.CFACCOUNTID }}
-          command: deploy
-      
-      - name: Get deployed worker URL
-        id: worker_url
+      - name: Start remote dev server
         run: |
-          WORKER_URL="https://express-d1-app.ckd-qja.workers.dev"
-          echo "url=$WORKER_URL" >> $GITHUB_OUTPUT
-          echo "Deployed worker URL: $WORKER_URL"
+          pnpm remote &
+          echo "Starting remote dev server..."
+          sleep 10
       
-      - name: Wait for deployment to be ready
+      - name: Wait for remote dev server to be ready
         run: |
-          echo "Waiting for deployment to be ready..."
-          for i in {1..10}; do
-            if curl -s ${{ steps.worker_url.outputs.url }} > /dev/null 2>&1; then
-              echo "Deployment is ready!"
+          echo "Waiting for remote dev server to be ready..."
+          for i in {1..15}; do
+            if curl -s http://localhost:8787 > /dev/null 2>&1; then
+              echo "Remote dev server is ready!"
               break
             fi
-            echo "Attempt $i: Deployment not ready yet..."
-            sleep 5
+            echo "Attempt $i: Remote dev server not ready yet..."
+            sleep 3
           done
       
-      - name: Run tests against deployed worker
+      - name: Run tests against remote dev server
         run: pnpm test
-        env:
-          WORKER_URL: ${{ steps.worker_url.outputs.url }}
       
       - name: Cleanup
         if: always()
