@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 
 describe('API Endpoints', () => {
-	let commentId: number;
-	let worker: any;
+	// let commentId: number;
+	// let worker: any;
 
 	describe('Health Check', () => {
 		it('should return health check message', async () => {
