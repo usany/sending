@@ -35,23 +35,29 @@ jobs:
           accountId: ${{ secrets.CFACCOUNTID }}
           command: deploy
       
-      - name: Start dev server in background
-        run: pnpm run remote &
-      
-      - name: Wait for server to be ready
+      - name: Get deployed worker URL
+        id: worker_url
         run: |
-          echo "Waiting for server to start..."
-          for i in {1..30}; do
-            if curl -s http://localhost:8787 > /dev/null 2>&1; then
-              echo "Server is ready!"
+          WORKER_URL="https://express-d1-app.${{ secrets.CFACCOUNTID }}.workers.dev"
+          echo "url=$WORKER_URL" >> $GITHUB_OUTPUT
+          echo "Deployed worker URL: $WORKER_URL"
+      
+      - name: Wait for deployment to be ready
+        run: |
+          echo "Waiting for deployment to be ready..."
+          for i in {1..10}; do
+            if curl -s ${{ steps.worker_url.outputs.url }} > /dev/null 2>&1; then
+              echo "Deployment is ready!"
               break
             fi
-            echo "Attempt $i: Server not ready yet..."
-            sleep 2
+            echo "Attempt $i: Deployment not ready yet..."
+            sleep 5
           done
       
-      - name: Run tests
+      - name: Run tests against deployed worker
         run: pnpm test
+        env:
+          WORKER_URL: ${{ steps.worker_url.outputs.url }}
       
       - name: Cleanup
         if: always()
