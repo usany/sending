@@ -19,7 +19,13 @@ jobs:
         uses: pnpm/action-setup@v6
         with:
           version: 10
-      
+
+      - name: Build & Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CFAPITOKEN }}
+          accountId: ${{ secrets.CFACCOUNTID }}
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
