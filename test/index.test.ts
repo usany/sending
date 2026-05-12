@@ -4,7 +4,6 @@ const BASE_URL = process.env.WORKER_URL || 'http://localhost:8787';
 describe('API Endpoints', () => {
 	// let commentId: number;
 	// let worker: any;
-
 	describe('Health Check', () => {
 		it('should return health check message', async () => {
 			const res = await fetch(BASE_URL);
