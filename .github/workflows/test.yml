@@ -38,7 +38,7 @@ jobs:
       - name: Get deployed worker URL
         id: worker_url
         run: |
-          WORKER_URL="https://express-d1-app.${{ secrets.CFACCOUNTID }}.workers.dev"
+          WORKER_URL="https://express-d1-app.ckd-qja.workers.dev"
           echo "url=$WORKER_URL" >> $GITHUB_OUTPUT
           echo "Deployed worker URL: $WORKER_URL"
       
