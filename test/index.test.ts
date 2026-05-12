@@ -145,15 +145,13 @@ describe('API Endpoints', () => {
 			expect(Array.isArray(data.comments)).toBe(true);
 		});
 
-		// it('should return empty array for non-existent slug', async () => {
-		// 	const res = await worker.fetch(
-		// 		new Request('http://localhost:3000/api/comments/non-existent-slug')
-		// 	);
-		// 	const data = await res.json();
-		// 	expect(res.status).toBe(200);
-		// 	expect(data.success).toBe(true);
-		// 	expect(Array.isArray(data.comments)).toBe(true);
-		// });
+		it('should return empty array for non-existent slug', async () => {
+			const res = await fetch('http://localhost:8787/api/comments/non-existent-slug');
+			const data = await res.json();
+			expect(res.status).toBe(200);
+			expect(data.success).toBe(true);
+			expect(Array.isArray(data.comments)).toBe(true);
+		});
 	});
 
 	// describe('POST /api/comments/:commentId/verify-password', () => {
