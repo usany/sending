@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-const baseURL = process.env.WORKER_URL || 'http://localhost:8787';
+const BASE_URL = process.env.WORKER_URL || 'http://localhost:8787';
 
 describe('API Endpoints', () => {
 	// let commentId: number;
@@ -8,7 +8,7 @@ describe('API Endpoints', () => {
 
 	describe('Health Check', () => {
 		it('should return health check message', async () => {
-			const res = await fetch(baseURL);
+			const res = await fetch(BASE_URL);
 			const data = await res.json();
 			expect(res.status).toBe(200);
 			expect(data.message).toBe('Express running on Cloudflare Workers!');
@@ -17,7 +17,7 @@ describe('API Endpoints', () => {
 
 	describe('POST /mail', () => {
 		it('should send email with valid data (Korean)', async () => {
-			const res = await fetch(`${baseURL}/mail`, {
+			const res = await fetch(`${BASE_URL}/mail`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -32,7 +32,7 @@ describe('API Endpoints', () => {
 		});
 
 		it('should send email with valid data (English)', async () => {
-			const res = await fetch(`${baseURL}/mail`, {
+			const res = await fetch(`${BASE_URL}/mail`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -140,7 +140,7 @@ describe('API Endpoints', () => {
 
 	describe('GET /api/comments/:slug', () => {
 		it('should get comments for a slug', async () => {
-			const res = await fetch(`${baseURL}/api/comments/platform`);
+			const res = await fetch(`${BASE_URL}/api/comments/platform`);
 			const data = await res.json();
 			expect(res.status).toBe(200);
 			expect(data.success).toBe(true);
@@ -148,7 +148,7 @@ describe('API Endpoints', () => {
 		});
 
 		it('should return empty array for non-existent slug', async () => {
-			const res = await fetch(`${baseURL}/api/comments/non-existent-slug`);
+			const res = await fetch(`${BASE_URL}/api/comments/non-existent-slug`);
 			const data = await res.json();
 			expect(res.status).toBe(200);
 			expect(data.success).toBe(true);
