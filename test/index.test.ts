@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
 const BASE_URL = process.env.WORKER_URL || 'http://localhost:8787';
-
 describe('API Endpoints', () => {
 	// let commentId: number;
 	// let worker: any;
