@@ -28,11 +28,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       
-      - name: Authenticate with Cloudflare
-        run: |
-          npx wrangler auth --api-token "${{ secrets.CFAPITOKEN }}"
-      
       - name: Start remote dev server
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CFAPITOKEN }}
         run: |
           pnpm remote &
           echo "Starting remote dev server..."
