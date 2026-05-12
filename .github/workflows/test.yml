@@ -28,6 +28,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       
+      - name: Authenticate with Cloudflare
+        run: |
+          wrangler auth --api-token "${{ secrets.CFAPITOKEN }}"
+      
       - name: Start remote dev server
         run: |
           pnpm remote &
