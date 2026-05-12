@@ -151,6 +151,7 @@ describe('API Endpoints', () => {
 			expect(res.status).toBe(200);
 			expect(data.success).toBe(true);
 			expect(Array.isArray(data.comments)).toBe(true);
+			expect(data.comments.length).toBe(0);
 		});
 	});
 
