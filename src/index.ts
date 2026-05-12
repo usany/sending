@@ -42,6 +42,7 @@ const sendEmail = async (emailOptions: nodemailer.SendMailOptions) => {
     const emailTransporter = await createTransporter();
     const res = await emailTransporter.sendMail(emailOptions);
     console.log("sending");
+    console.log(res)
     return res;
   } catch (error) {
     console.log(error);

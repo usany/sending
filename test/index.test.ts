@@ -25,7 +25,6 @@ describe('API Endpoints', () => {
 				})
 			});
 			const data = await res.json();
-			console.log(data)
 			expect(res.status).toBe(200);
 			expect(data.res).toBe('sending');
 		});
