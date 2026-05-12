@@ -44,39 +44,25 @@ describe('API Endpoints', () => {
 			expect(res.status).toBe(200);
 			expect(data.res).toBe('sending');
 		});
+	});
+	
+	describe('GET /api/comments/:slug', () => {
+		it('should get comments for a slug', async () => {
+			const res = await fetch(`${BASE_URL}/api/comments/platform`);
+			const data = await res.json();
+			expect(res.status).toBe(200);
+			expect(data.success).toBe(true);
+			expect(Array.isArray(data.comments)).toBe(true);
+		});
 
-		// it('should reject invalid email', async () => {
-		// 	const res = await worker.fetch(
-		// 		new Request('http://localhost:3000/mail', {
-		// 			method: 'POST',
-		// 			headers: { 'Content-Type': 'application/json' },
-		// 			body: JSON.stringify({
-		// 				to: 'invalid-email',
-		// 				number: '123456',
-		// 				language: 'en'
-		// 			})
-		// 		})
-		// 	);
-		// 	const data = await res.json();
-		// 	expect(res.status).toBe(400);
-		// 	expect(data.success).toBe(false);
-		// });
-
-		// it('should reject missing number', async () => {
-		// 	const res = await worker.fetch(
-		// 		new Request('http://localhost:3000/mail', {
-		// 			method: 'POST',
-		// 			headers: { 'Content-Type': 'application/json' },
-		// 			body: JSON.stringify({
-		// 				to: 'test@example.com',
-		// 				language: 'en'
-		// 			})
-		// 		})
-		// 	);
-		// 	const data = await res.json();
-		// 	expect(res.status).toBe(400);
-		// 	expect(data.success).toBe(false);
-		// });
+		it('should return empty array for non-existent slug', async () => {
+			const res = await fetch(`${BASE_URL}/api/comments/non-existent-slug`);
+			const data = await res.json();
+			expect(res.status).toBe(200);
+			expect(data.success).toBe(true);
+			expect(Array.isArray(data.comments)).toBe(true);
+			expect(data.comments.length).toBe(0);
+		});
 	});
 
 	// describe('POST /api/comments/:slug', () => {
@@ -137,24 +123,24 @@ describe('API Endpoints', () => {
 	// 	});
 	// });
 
-	describe('GET /api/comments/:slug', () => {
-		it('should get comments for a slug', async () => {
-			const res = await fetch(`${BASE_URL}/api/comments/platform`);
-			const data = await res.json();
-			expect(res.status).toBe(200);
-			expect(data.success).toBe(true);
-			expect(Array.isArray(data.comments)).toBe(true);
-		});
+	// describe('GET /api/comments/:slug', () => {
+	// 	it('should get comments for a slug', async () => {
+	// 		const res = await fetch(`${BASE_URL}/api/comments/platform`);
+	// 		const data = await res.json();
+	// 		expect(res.status).toBe(200);
+	// 		expect(data.success).toBe(true);
+	// 		expect(Array.isArray(data.comments)).toBe(true);
+	// 	});
 
-		it('should return empty array for non-existent slug', async () => {
-			const res = await fetch(`${BASE_URL}/api/comments/non-existent-slug`);
-			const data = await res.json();
-			expect(res.status).toBe(200);
-			expect(data.success).toBe(true);
-			expect(Array.isArray(data.comments)).toBe(true);
-			expect(data.comments.length).toBe(0);
-		});
-	});
+	// 	it('should return empty array for non-existent slug', async () => {
+	// 		const res = await fetch(`${BASE_URL}/api/comments/non-existent-slug`);
+	// 		const data = await res.json();
+	// 		expect(res.status).toBe(200);
+	// 		expect(data.success).toBe(true);
+	// 		expect(Array.isArray(data.comments)).toBe(true);
+	// 		expect(data.comments.length).toBe(0);
+	// 	});
+	// });
 
 	// describe('POST /api/comments/:commentId/verify-password', () => {
 	// 	it('should verify correct password', async () => {
