@@ -28,27 +28,28 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       
-      - name: Start remote dev server
+      - name: Start local dev server
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CFAPITOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CFACCOUNTID }}
         run: |
-          pnpm remote &
-          echo "Starting remote dev server..."
+          pnpm dev &
+          echo "Starting local dev server..."
           sleep 10
       
-      - name: Wait for remote dev server to be ready
+      - name: Wait for local dev server to be ready
         run: |
-          echo "Waiting for remote dev server to be ready..."
+          echo "Waiting for local dev server to be ready..."
           for i in {1..15}; do
             if curl -s http://localhost:8787 > /dev/null 2>&1; then
-              echo "Remote dev server is ready!"
+              echo "Local dev server is ready!"
               break
             fi
-            echo "Attempt $i: Remote dev server not ready yet..."
+            echo "Attempt $i: Local dev server not ready yet..."
             sleep 3
           done
       
-      - name: Run tests against remote dev server
+      - name: Run tests against local dev server
         run: pnpm test
       
       - name: Cleanup
