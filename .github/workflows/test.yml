@@ -30,7 +30,7 @@ jobs:
       
       - name: Authenticate with Cloudflare
         run: |
-          wrangler auth --api-token "${{ secrets.CFAPITOKEN }}"
+          npx wrangler auth --api-token "${{ secrets.CFAPITOKEN }}"
       
       - name: Start remote dev server
         run: |
