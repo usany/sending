@@ -25,14 +25,15 @@ jobs:
         with:
           version: 10
 
+      - name: Install dependencies
+        run: pnpm install
+      
       - name: Build & Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CFAPITOKEN }}
           accountId: ${{ secrets.CFACCOUNTID }}
-      
-      - name: Install dependencies
-        run: pnpm install
+          command: deploy
       
       - name: Start dev server in background
         run: pnpm run remote &
