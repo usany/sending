@@ -38,12 +38,14 @@ jobs:
       
       - name: Start local dev server
         run: |
+          echo "CLOUDFLARE_API_TOKEN=${{ env.CLOUDFLARE_API_TOKEN }}" >> .dev.vars
+          echo "CLOUDFLARE_ACCOUNT_ID=${{ env.CLOUDFLARE_ACCOUNT_ID }}" >> .dev.vars
           echo "USER=${{ env.USER }}" >> .dev.vars
           echo "ACCESSTOKEN=${{ env.ACCESSTOKEN }}" >> .dev.vars
           echo "CLIENTID=${{ env.CLIENTID }}" >> .dev.vars
           echo "CLIENTSECRET=${{ env.CLIENTSECRET }}" >> .dev.vars
           echo "REFRESHTOKEN=${{ env.REFRESHTOKEN }}" >> .dev.vars
-          pnpm dev &
+          pnpm remote &
           echo "Starting local dev server..."
           sleep 15
       
