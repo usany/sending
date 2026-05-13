@@ -38,9 +38,14 @@ jobs:
       
       - name: Start local dev server
         run: |
+          echo "USER=${{ env.USER }}" >> .dev.vars
+          echo "ACCESSTOKEN=${{ env.ACCESSTOKEN }}" >> .dev.vars
+          echo "CLIENTID=${{ env.CLIENTID }}" >> .dev.vars
+          echo "CLIENTSECRET=${{ env.CLIENTSECRET }}" >> .dev.vars
+          echo "REFRESHTOKEN=${{ env.REFRESHTOKEN }}" >> .dev.vars
           pnpm dev &
           echo "Starting local dev server..."
-          sleep 10
+          sleep 15
       
       - name: Wait for local dev server to be ready
         run: |

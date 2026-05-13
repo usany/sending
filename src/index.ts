@@ -45,7 +45,8 @@ const sendEmail = async (emailOptions: nodemailer.SendMailOptions) => {
     console.log(res)
     return res;
   } catch (error) {
-    console.log(error);
+    console.log("Error sending email:", error);
+    throw error;
   }
 };
 
@@ -103,17 +104,20 @@ app.post("/mail", async (req, res) => {
         : `Welcome. The number is ${number}. Kindly send any inquiries to this email.`;
     if (reqMethod === "POST" && reqURL === "/mail") {
       console.log("sending");
-      await sendEmail({
+      const result = await sendEmail({
         subject: subject,
         text: text,
         to: to,
         from: env.USER,
       });
+      if (!result) {
+        throw new Error("Failed to send email");
+      }
     }
-    res.send(JSON.stringify({ res: "sending" }));
-  } catch (error) {
-    console.log(error);
-    res.send(JSON.stringify({ res: "error" }));
+    res.json({ success: true, res: "sending" });
+  } catch (error: any) {
+    console.log("Handler error:", error);
+    res.status(500).json({ success: false, error: error.message || "Internal server error" });
   }
 });
 // GET all comments for a specific slug
