@@ -32,6 +32,11 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CFAPITOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CFACCOUNTID }}
+          USER: ${{ secrets.USER }}
+          ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }}
+          CLIENTID: ${{ secrets.CLIENTID }}
+          CLIENTSECRET: ${{ secrets.CLIENTSECRET }}
+          REFRESHTOKEN: ${{ secrets.REFRESHTOKEN }}
         run: |
           pnpm dev &
           echo "Starting local dev server..."
