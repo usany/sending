@@ -10,6 +10,14 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CFAPITOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CFACCOUNTID }}
+      USER: ${{ secrets.USER }}
+      ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }}
+      CLIENTID: ${{ secrets.CLIENTID }}
+      CLIENTSECRET: ${{ secrets.CLIENTSECRET }}
+      REFRESHTOKEN: ${{ secrets.REFRESHTOKEN }}
     
     steps:
       - name: Checkout code
@@ -29,14 +37,6 @@ jobs:
         run: pnpm install
       
       - name: Start local dev server
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CFAPITOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CFACCOUNTID }}
-          USER: ${{ secrets.USER }}
-          ACCESSTOKEN: ${{ secrets.ACCESSTOKEN }}
-          CLIENTID: ${{ secrets.CLIENTID }}
-          CLIENTSECRET: ${{ secrets.CLIENTSECRET }}
-          REFRESHTOKEN: ${{ secrets.REFRESHTOKEN }}
         run: |
           pnpm dev &
           echo "Starting local dev server..."
